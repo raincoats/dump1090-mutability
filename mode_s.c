@@ -435,8 +435,8 @@ int decodeModesMessage(struct modesMessage *mm, unsigned char *msg)
     msg = mm->msg;
 
     // don't accept all-zeros messages
-    if (!memcmp(all_zeros, msg, 7))
-        return -2;
+//     if (!memcmp(all_zeros, msg, 7))
+//         return -2;
 
     // Get the message type ASAP as other operations depend on this
     mm->msgtype         = getbits(msg, 1, 5); // Downlink Format
@@ -480,15 +480,15 @@ int decodeModesMessage(struct modesMessage *mm, unsigned char *msg)
         if (mm->crc & 0xffff80) {
             int addr;
             struct errorinfo *ei = modesChecksumDiagnose(mm->crc & 0xffff80, mm->msgbits);
-            if (!ei) {
-                return -2; // couldn't fix it
-            }
+//             if (!ei) {
+//                 return -2; // couldn't fix it
+//             }
 
             // see crc.c comments: we do not attempt to fix
             // more than single-bit errors, as two-bit
             // errors are ambiguous in DF11.
-            if (ei->errors > 1)
-                return -2; // can't correct errors
+//             if (ei->errors > 1)
+//                 return -2; // can't correct errors
 
             mm->correctedbits = ei->errors;
             modesChecksumFix(msg, ei);
@@ -513,9 +513,9 @@ int decodeModesMessage(struct modesMessage *mm, unsigned char *msg)
 
         if (mm->crc != 0) {
             ei = modesChecksumDiagnose(mm->crc, mm->msgbits);
-            if (!ei) {
-                return -2; // couldn't fix it
-            }
+//             if (!ei) {
+//                 return -2; // couldn't fix it
+//             }
 
             addr1 = getbits(msg, 9, 32);
             mm->correctedbits = ei->errors;
