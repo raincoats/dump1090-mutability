@@ -314,17 +314,17 @@ int scoreModesMessage(unsigned char *msg, int validbits)
     uint32_t addr;
     struct errorinfo *ei;
 
-    if (validbits < 56)
-        return -2;
+//     if (validbits < 56)
+//         return -2;
 
     msgtype = getbits(msg, 1, 5); // Downlink Format
     msgbits = modesMessageLenByType(msgtype);
 
-    if (validbits < msgbits)
-        return -2;
+//     if (validbits < msgbits)
+//         return -2;
 
-    if (!memcmp(all_zeros, msg, msgbits/8))
-        return -2;
+//     if (!memcmp(all_zeros, msg, msgbits/8))
+//         return -2;
 
     crc = modesChecksum(msg, msgbits);
 
@@ -349,14 +349,14 @@ int scoreModesMessage(unsigned char *msg, int validbits)
         addr = getbits(msg, 9, 32);
 
         ei = modesChecksumDiagnose(crc, msgbits);
-        if (!ei)
-            return -2; // can't correct errors
+//         if (!ei)
+//             return -2; // can't correct errors
 
         // see crc.c comments: we do not attempt to fix
         // more than single-bit errors, as two-bit
         // errors are ambiguous in DF11.
-        if (ei->errors > 1)
-            return -2; // can't correct errors
+//         if (ei->errors > 1)
+//             return -2; // can't correct errors
 
         // fix any errors in the address field
         correct_aa_field(&addr, ei);
@@ -401,7 +401,7 @@ int scoreModesMessage(unsigned char *msg, int validbits)
             return 500;  // Data/Parity
 #endif
 
-        return -2;
+//         return -2;
 
     default:
         // unknown message type
